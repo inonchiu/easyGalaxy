@@ -1838,7 +1838,8 @@ class ezgal(object):
         fits = pyfits.open(filename)
 
         # make sure it has some filters
-        if not (fits[0].header.has_key('nfilters')):
+        #if not (fits[0].header.has_key('nfilters')):
+        if not ('nfilters' in fits[0].header):
             raise ValueError(
                 'Cannot extract filters from specified file because it has none!')
         if fits[0].header['nfilters'] == 0:
@@ -2571,7 +2572,8 @@ class ezgal(object):
         hdr['has_meta'] = True
 
         # store meta data in fits header
-        for (key, val) in self.meta_data.iteritems():
+        #for (key, val) in self.meta_data.iteritems():  # inchiu: iteritems has been disabled
+        for (key, val) in self.meta_data.items():
             hdr[key] = (val, 'meta data')
 
         return hdr
@@ -2659,8 +2661,8 @@ class ezgal(object):
             Discontinuties are always a source of trouble, and at the moment it is not clear whether or not ``make_csp`` is properly handling them.  In fact, it seems not to be.  ``break_points`` is my current attempt at dealing with this problem, but is still under development.  If you do model a star formation history with discontinuities then expect ``make_csp`` to hit the maximum iteration limit, and expect your model to take a very long amount of time to calculate.  Moreover, it still might not be correct. Test your results carefully. """
 
         # basic check - only generate CSPs from SSPs
-        if self.has_meta_data and self.meta_data.has_key(
-                'sfh') and self.meta_data['sfh'].lower() != 'ssp':
+        #if self.has_meta_data and self.meta_data.has_key('sfh') and self.meta_data['sfh'].lower() != 'ssp':
+        if self.has_meta_data and ('sfh' in self.meta_data) and self.meta_data['sfh'].lower() != 'ssp':
             raise ValueError(
                 'Defiantly refusing to generate CSPs from anything other than SSPs. Meta data says this model has an alternate SFH: %s'
                 % self.meta_data['sfh'])
@@ -3189,7 +3191,8 @@ if __name__ == '__main__':
                 continue
 
         # if the filter isn't already in the model then make sure there is a file for it
-        if not (model.filters.has_key(arg)) and not (os.path.isfile(arg)):
+        #if not (model.filters.has_key(arg)) and not (os.path.isfile(arg)):
+        if not (arg in model.filters) and not (os.path.isfile(arg)):
             raise ValueError('Could not load the filter %s!' % arg)
         filters.append(arg)
         nfilters += 1
@@ -3203,7 +3206,8 @@ if __name__ == '__main__':
     # time to actually do the calculations
     if len(zfs_in): model.set_zfs(zfs, grid=False)
     for filter in filters:
-        if not (model.filters.has_key(filter)): model.add_filter(filter)
+        #if not (model.filters.has_key(filter)): model.add_filter(filter)
+        if not (filter in model.filters): model.add_filter(filter)
 
     # was normalization info passed?
     if norm and norm_z and norm_filter:

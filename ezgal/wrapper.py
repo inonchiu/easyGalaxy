@@ -52,7 +52,8 @@ class wrapper(object):
             # break up extra data to pass one set at a time to add_model()
             my_extra_data = {}
             if extra_data:
-                for (key, val) in extra_data.iteritems():
+                #for (key, val) in extra_data.iteritems(): # inchiu: iteritems has been disabled
+                for (key, val) in extra_data.items():
                     my_extra_data[key] = val[i]
 
             self.add_model(model, my_extra_data)
@@ -102,7 +103,8 @@ class wrapper(object):
 
         # index with string
         if type(key) == type(''):
-            if not self.meta_data.has_key(key):
+            #if not self.meta_data.has_key(key):
+            if not key in self.meta_data:
                 raise IndexError('Meta key %s does not exist!' % key)
             return np.asarray(self.meta_data[key])
 
@@ -288,7 +290,8 @@ class wrapper(object):
 
         new_data = {}
         # loop through each key
-        for (key, vals) in self.meta_data.iteritems():
+        #for (key, vals) in self.meta_data.iteritems(): # inchiu: iteritems has been disabled
+        for (key, vals) in self.meta_data.items():
 
             # if there is only one value for all models then return that value
             # otherwise return 'Mixed'
@@ -321,7 +324,8 @@ class wrapper(object):
 
         # make sure the keys all exist
         for key in keys:
-            if not self.meta_data.has_key(key):
+            #if not self.meta_data.has_key(key):
+            if not key in self.meta_data:
                 raise ValueError("Meta data key %s does not exist!" % key)
 
         # now loop through keys/values and find things that don't match
@@ -372,7 +376,8 @@ class wrapper(object):
 		
 		Return a numpy array of indexes to sort the models in the wrapper object. Sorting is done numerically by values in meta data keyword ``key``. Data in given meta key must contain only numeric data. """
 
-        if not self.meta_data.has_key(key):
+        #if not self.meta_data.has_key(key):
+        if not key in self.meta_data:
             raise ValueError('Meta data key %s does not exist!' % key)
 
         # is this numeric data?
@@ -414,7 +419,8 @@ class wrapper(object):
                 "Can't interpolate among the models because the models have different age/wavelength points in their SEDs!")
 
         # make sure the key actually exists in our meta data
-        if not self.meta_data.has_key(key):
+        #if not self.meta_data.has_key(key):
+        if not key in self.meta_data:
             raise ValueError(
                 "Can't interpolate by %s because that key wasn't found in the wrapper object's meta data!"
                 % key)
@@ -446,7 +452,7 @@ class wrapper(object):
         if self.has_masses:
             all_masses = np.empty((self.sed_ages.size, self.nmodels))
         if self.has_sfh:
-            all_shfs = np.empty((self.sed_ages.size, self.nmodels))
+            all_sfhs = np.empty((self.sed_ages.size, self.nmodels))
         for (i, model) in enumerate(self.models):
             all_seds[:, :, i] = self.models[i].seds
             if self.has_masses: all_masses[:, i] = self.models[i].masses

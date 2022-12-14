@@ -88,11 +88,14 @@ class ezgal_light(ezgal.ezgal):
                      'apparent': False}
 
         # save path to data folder - either set by environment (ezgal) or default to module directory/data
-        if os.environ.has_key('ezgal'):
+        #if os.environ.has_key('ezgal'):
+        if 'ezgal' in os.environ:
             self.data_dir = os.environ['ezgal']
-        elif os.environ.has_key('EZGAL'):
+        #elif os.environ.has_key('EZGAL'):
+        elif 'EZGAL' in os.environ:
             self.data_dir = os.environ['EZGAL']
-        elif os.environ.has_key('EzGal'):
+        #elif os.environ.has_key('EzGal'):
+        elif 'EzGal' in os.environ:
             self.data_dir = os.environ['EzGal']
         else:
             self.data_dir = os.path.dirname(os.path.realpath(
