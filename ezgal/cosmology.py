@@ -3,7 +3,8 @@ from __future__ import (absolute_import, division, print_function,
 
 import sys, math
 import scipy.integrate as integrate
-from scipy import inf
+#from scipy import inf
+from math import inf  # inchiu: use math.inf as the default. scipy does not have inf in python 3
 import numpy as num
 
 __author__ = 'becker@astro.washington.edu (Andrew Becker)'
